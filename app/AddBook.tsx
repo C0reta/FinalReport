@@ -3,34 +3,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
 import { Stack, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Image, KeyboardTypeOptions, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { InputField } from '../components/InputField';
 import { Book, getRandomColor } from '../utils/bookUtils';
 import { styles } from './style';
-
-interface InputFieldProps {
-    label: string;
-    value: string;
-    onChangeText: (text: string) => void;
-    placeholder?: string;
-    keyboardType?: KeyboardTypeOptions;
-}
-
-const InputField = ({ label, value, onChangeText, placeholder, keyboardType }: InputFieldProps) => {
-    return (
-        <View style={styles.inputContainer}>
-            <Text style={[styles.label, { paddingBottom: 5 }]}>{label}</Text>
-            <TextInput
-                style={styles.input}
-                value={value}
-                onChangeText={onChangeText}
-                placeholder={placeholder || ""}
-                keyboardType={keyboardType} // 키패드
-            />
-        </View>
-    );
-};
-
 
 export default function AddBook() {
 
@@ -158,6 +135,13 @@ export default function AddBook() {
                     label="출판 연도"
                     value={pubYear}
                     onChangeText={setPubYear}
+                    keyboardType="numeric"
+                />
+
+                <InputField
+                    label="페이지 수"
+                    value={pages}
+                    onChangeText={setPages}
                     keyboardType="numeric"
                 />
 
