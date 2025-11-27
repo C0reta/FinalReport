@@ -1,11 +1,35 @@
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
 import { Stack, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, KeyboardTypeOptions, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Book, getRandomColor } from '../utils/bookUtils';
 import { styles } from './style';
 
+interface InputFieldProps {
+    label: string;
+    value: string;
+    onChangeText: (text: string) => void;
+    placeholder?: string;
+    keyboardType?: KeyboardTypeOptions;
+}
+
+const InputField = ({ label, value, onChangeText, placeholder, keyboardType }: InputFieldProps) => {
+    return (
+        <View style={styles.inputContainer}>
+            <Text style={[styles.label, { paddingBottom: 5 }]}>{label}</Text>
+            <TextInput
+                style={styles.input}
+                value={value}
+                onChangeText={onChangeText}
+                placeholder={placeholder || ""}
+                keyboardType={keyboardType} // 키패드
+            />
+        </View>
+    );
+};
 
 
 export default function AddBook() {
@@ -17,7 +41,44 @@ export default function AddBook() {
     const [publisher, setPublisher] = useState('');
     const [pubYear, setPubYear] = useState('');
     const [location, setLocation] = useState('');
+    const [pages, setPages] = useState('');
     const [rating, setRating] = useState(0);
+
+    const isFormValid = title.trim() !== '' && author.trim() !== '' && pages.trim() != '';
+    const handleSave = async () => {
+        if (!isFormValid) return;
+
+        const newBook: Book = {
+            id: Date.now(),
+            title,
+            author,
+            publisher,
+            pubYear,
+            location,
+            rating,
+            imageUri, // 이미지 경로
+            pages: parseInt(pages) || 0, // 페이지 수 (숫자로 변환만 해서 저장)
+            color: getRandomColor(), // 색상은 생성 시점에 정해서 저장 => 이거 수정하는 게 낫지 않나
+
+
+        };
+
+        try {
+            const existingBookJson = await AsyncStorage.getItem('my-books');
+            const books = existingBookJson ? JSON.parse(existingBookJson) : [];
+            books.push(newBook);
+            await AsyncStorage.setItem('my-books', JSON.stringify(books));
+            console.log("저장: ", newBook);
+
+            router.back();
+        } catch (e) {
+            console.error("저장 중 오류 발생: ", e);
+        }
+    }
+
+
+
+
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -57,8 +118,8 @@ export default function AddBook() {
                     <Ionicons name='arrow-back' size={24} color='black' />
                 </TouchableOpacity>
                 <Text style={styles.headerTitle}>책 저장</Text>
-                <TouchableOpacity onPress={() => console.log("save")}>
-                    <Text style={styles.saveButtonText}>Save</Text>
+                <TouchableOpacity onPress={handleSave} disabled={!isFormValid}>
+                    <Text style={[styles.saveButtonText, { color: isFormValid ? '#6200ee' : '#ccc' }]}>Save</Text>
                 </TouchableOpacity>
             </View>
             <ScrollView contentContainerStyle={{ padding: 20 }}>
@@ -74,29 +135,40 @@ export default function AddBook() {
                     )}
                 </TouchableOpacity>
                 {/* 3. 정보입력영역 */}
-                <View style={styles.inputContainer}>
-                    <Text style={[styles.label, {paddingBottom: 5}]}>제목</Text>
-                    <TextInput style={styles.input} value={title} onChangeText={setTitle} placeholder="" />
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={[styles.label, {paddingBottom: 5}]}>지은이</Text>
-                    <TextInput style={styles.input} value={author} onChangeText={setAuthor} placeholder="" />
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={[styles.label, {paddingBottom: 5}]}>출판사</Text>
-                    <TextInput style={styles.input} value={publisher} onChangeText={setPublisher} placeholder="" />
+                <InputField
+                    label="제목"
+                    value={title}
+                    onChangeText={setTitle}
+                />
 
-                </View>
+                <InputField
+                    label="지은이"
+                    value={author}
+                    onChangeText={setAuthor}
+                />
+
+                <InputField
+                    label="출판사"
+                    value={publisher}
+                    onChangeText={setPublisher}
+                />
+
+                {/* 연도는 숫자만 입력 */}
+                <InputField
+                    label="출판 연도"
+                    value={pubYear}
+                    onChangeText={setPubYear}
+                    keyboardType="numeric"
+                />
+
+                <InputField
+                    label="대출 장소"
+                    value={location}
+                    onChangeText={setLocation}
+                />
+
                 <View style={styles.inputContainer}>
-                    <Text style={[styles.label, {paddingBottom: 5}]}>출판 연도</Text>
-                    <TextInput style={styles.input} value={pubYear} onChangeText={setPubYear} placeholder="" />
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={[styles.label, {paddingBottom: 5}]}>대출 장소</Text>
-                    <TextInput style={styles.input} value={location} onChangeText={setLocation} placeholder="" />
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={[styles.label, {paddingBottom: 5}]}>별점</Text>
+                    <Text style={[styles.label, { paddingBottom: 5 }]}>별점</Text>
                     <View style={{ flexDirection: 'row' }}>
                         {drawStars()}
                     </View>
