@@ -1,3 +1,5 @@
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Dimensions, Modal, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -54,6 +56,8 @@ const organizeBooksByShelf = (books: any[]) => {
 
 export default function BookShelf() {
 
+    const router = useRouter();
+
     const [shelfName, setShelfName] = useState("Untitled");
     const [modalVisible, setModalVisible] = useState(false);
     const [inputText, setInputText] = useState(shelfName);
@@ -91,45 +95,45 @@ export default function BookShelf() {
 
                         <View style={styles.modalButtons}>
                             <TouchableOpacity
-                                style={[styles.modalBtn, styles.cancelBtn]}
+                                style={[styles.modalBtn, styles.cancelButton]}
                                 onPress={() => setModalVisible(false)}
                             >
-                                <Text style={styles.btnText}>취소</Text>
+                                <Text style={styles.ButtonText}>취소</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity
-                                style={[styles.modalBtn, styles.saveBtn]}
+                                style={[styles.modalBtn, styles.saveButton]}
                                 onPress={handleSave}
                             >
-                                <Text style={[styles.btnText, { color: 'white' }]}>저장</Text>
+                                <Text style={[styles.ButtonText, { color: 'white' }]}>저장</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                 </View>
             </Modal>
-            // 상단 헤딩바
+            {/* 상단 헤딩바 */}
             <View style={styles.header}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Text style={styles.headerTitle}>{shelfName}</Text>
-                    <TouchableOpacity onPress={handleEditPress} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ fontSize: 18, marginLeft: 10, paddingTop: 3, color: '#aaa' }}>✎</Text>
+                    <TouchableOpacity onPress={handleEditPress} style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 6, paddingTop: 2 }}>
+                        <Ionicons name='pencil' size={10} color='black'/>
                     </TouchableOpacity>
                 </View>
 
-                // 추후 재사용
+                {/*추후 재사용*/}
                 <TouchableOpacity>
                     <Text style={styles.editButton}>Edit</Text>
                 </TouchableOpacity>
             </View>
-            // 책장 꽂는곳...
+            {/* 책장 꽂는곳... */}
             <ScrollView contentContainerStyle={styles.shelfScrollArea}>
                 {bookRows.map((row, rowIndex) => (
                     // 1. 선반컨테이너
                     <View key={rowIndex} style={styles.shelfContainer}>
 
-                        // 책장내부
+                        {/* 책장내부 */}
                         <View style={styles.booksRow}>
-                            // 책들
+                            {/* 책들 */}
                             {row.map((book) => (
                                 <TouchableOpacity
                                     key={book.id}
@@ -142,13 +146,13 @@ export default function BookShelf() {
                             ))}
                         </View>
 
-                        // 선반바닥
+                        {/* 선반바닥 */}
                         <View style={styles.shelfFloor} />
                     </View>
                 ))}
             </ScrollView>
-            // 최하단 버튼
-            <TouchableOpacity style={styles.addButton} onPress={() => console.log("책추가")}>
+            {/* 최하단 바닥 */}
+            <TouchableOpacity style={styles.addButton} onPress={() => router.push("/AddBook")}>
                 <Text style={styles.addButtonText}>+</Text>
             </TouchableOpacity>
         </SafeAreaView>

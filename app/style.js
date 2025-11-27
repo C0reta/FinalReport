@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 20, // 좌우 여백
         zIndex: 1,
         marginBottom: -3,
-    
+
         alignItems: 'flex-end', // 책 바닥에맞추기
         height: 120, // 책장내부공간(아래의 bookItem 높이랑 맞추면됨) => 이거 변수로 뺄까 var bookheight = 120 둘다수정하기 귀찮은데
     },
@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
         marginHorizontal: 2, // 책사이간격
         justifyContent: 'center',
         alignItems: 'center',
-        
+
         // 모서리
         borderTopLeftRadius: 3,
         borderTopRightRadius: 3,
@@ -153,14 +153,55 @@ export const styles = StyleSheet.create({
         width: '45%',
         alignItems: 'center',
     },
-    saveBtn: {
-        backgroundColor: "#6200ee",
+    saveButton: {
+        backgroundColor: '#6200ee',
     },
-    cancelBtn: {
+    saveButtonText: {
+        fontSize: 16,
+        color: '#6200ee',
+        fontWeight: 'bold',
+    },
+    cancelButton: {
         backgroundColor: "#d3d3d3",
     },
-    btnText: {
+    ButtonText: {
         fontWeight: "bold",
-    }
+    },
+    imagePicker: {
+        alignItems: 'center',
+        marginBottom: 30,
+    },
+    imagePlaceholder: {
+        width: 120,
+        height: 170,
+        backgroundColor: '#f0f0f0',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: '#ddd',
+        borderStyle: 'dashed',
+    },
+    bookCover: {
+        width: 140,
+        height: 200,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: '#eee',
+    },
+    inputContainer: {
+        marginBottom: 25,
+    },
+    label: {
+        fontSize: 13,
+        color: '#888',
+        marginBottom: 5,
+    },
+    input: {
+        fontSize: 16,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+        paddingVertical: 8,
+    },
 
 })
