@@ -41,14 +41,13 @@ export default function BookShelf() {
         setModalVisible(false);
     }
 
-    // 로직은 유틸 함수 한 줄로 끝! 깔끔!
     const bookRows = organizeBooksByShelf(books);
 
     return (
         <SafeAreaView style={styles.container}>
-            
+
             {/* 모달 */}
-            <EditShelfModal 
+            <EditShelfModal
                 visible={modalVisible}
                 onClose={() => setModalVisible(false)}
                 onSave={handleSave}
@@ -61,7 +60,7 @@ export default function BookShelf() {
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Text style={styles.headerTitle}>{shelfName}</Text>
                     <TouchableOpacity onPress={handleEditPress} style={{ paddingLeft: 6, paddingTop: 2 }}>
-                        <Ionicons name='pencil' size={16} color='#aaa'/>
+                        <Ionicons name='pencil' size={16} color='#aaa' />
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity>
@@ -78,9 +77,9 @@ export default function BookShelf() {
                                 <TouchableOpacity
                                     key={book.id}
                                     style={[styles.bookItem, { backgroundColor: book.color, width: getBookWidth(book.pages || 0) }]}
-                                    onPress={() => console.log(book.title)}
+                                    onPress={() => router.push(`/book/${book.id}`)}
                                 >
-                                    {getBookWidth(book.pages || 0) > 25 && (
+                                    {getBookWidth(book.pages || 0) > 15 && (
                                         <Text style={{ fontSize: 10 }} numberOfLines={1}>{book.title}</Text>
                                     )}
                                 </TouchableOpacity>

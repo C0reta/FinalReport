@@ -22,6 +22,17 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
     },
+    fab: {
+        position: 'absolute', // 공중에 띄우기
+        right: 20,
+        bottom: 30,
+        width: 56,
+        height: 56,
+        borderRadius: 28,
+        backgroundColor: '#6200ee',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     editButton: {
         fontSize: 16,
         color: 'blue',
