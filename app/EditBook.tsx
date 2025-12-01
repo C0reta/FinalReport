@@ -8,7 +8,7 @@ import { BookForm } from '../components/BookForm'; // 👈 공통 폼 가져오�
 import { Book } from '../utils/bookUtils';
 import { styles } from './style';
 
-export default function AddBook() {
+export default function EditBook() {
     const router = useRouter();
 
     // 저장 로직 (onSubmit으로 전달될 함수)
@@ -38,7 +38,7 @@ export default function AddBook() {
             </View>
 
             {/* 👇 폼 렌더링 (초기값 없음 = 추가 모드) */}
-            <BookForm onSubmit={handleAddBook} submitButtonLabel="저장하기" />
+            <BookForm onSubmit={handleAddBook} submitButtonLabel="수정하기" />
             
         </SafeAreaView>
     );
