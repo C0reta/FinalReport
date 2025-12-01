@@ -36,8 +36,6 @@ export default function AddBook() {
             imageUri, // 이미지 경로
             pages: parseInt(pages) || 0, // 페이지 수 (숫자로 변환만 해서 저장)
             color: getRandomColor(), // 색상은 생성 시점에 정해서 저장 => 이거 수정하는 게 낫지 않나
-
-
         };
 
         try {
@@ -52,10 +50,6 @@ export default function AddBook() {
             console.error("저장 중 오류 발생: ", e);
         }
     }
-
-
-
-
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({

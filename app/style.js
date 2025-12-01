@@ -214,5 +214,62 @@ export const styles = StyleSheet.create({
         borderBottomColor: '#ccc',
         paddingVertical: 8,
     },
+    bookInfoContainer: {
+        padding: 20,
+        borderBottomWidth: 10,
+        borderColor: '#f5f5f5',
+        alignItems: 'center',
+    },
+    bookCoverShadow: {
+        marginBottom: 20,
+        elevation: 5,
+        shadowColor: "#000",
+        shadowOpacity: 0.3,
+        shadowOffset: { width: 0, height: 2 },
+    },
+    detailBookCover: {
+        width: 140,
+        height: 200,
+        borderRadius: 5,
+        backgroundColor: '#eee',
+    },
+    noImagePlaceholder: {
+        width: 140,
+        height: 200,
+        borderRadius: 5,
+        backgroundColor: '#eee',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    detailTitle: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    detailAuthor: {
+        color: '#666',
+        marginTop: 5,
+        textAlign: 'center',
+    },
+    galleryTitle: {
+        padding: 15,
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    galleryGrid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    galleryItem: {
+        backgroundColor: '#eee',
+        borderWidth: 1,
+        borderColor: 'white',
+        // width, height는 동적이므로 본문에서 설정
+    },
+    galleryText: {
+        position: 'absolute',
+        bottom: 5,
+        right: 5,
+    },
 
 })

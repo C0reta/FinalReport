@@ -9,7 +9,7 @@ import { InputField } from '../components/InputField';
 import { Book, getRandomColor } from '../utils/bookUtils';
 import { styles } from './style';
 
-export default function AddBook() {
+export default function ShowBook() {
 
     const router = useRouter();
     const [imageUri, setImageUri] = useState<string | null>(null);
@@ -88,29 +88,43 @@ export default function AddBook() {
 
     return (
         <SafeAreaView style={styles.container}>
+
             <Stack.Screen options={{ headerShown: false }} />
             {/* 1. 최상단헤더 */}
             <View style={styles.header}>
+
                 <TouchableOpacity onPress={() => router.back()}>
                     <Ionicons name='arrow-back' size={24} color='black' />
                 </TouchableOpacity>
+
                 <Text style={styles.headerTitle}>책 저장</Text>
+
                 <TouchableOpacity onPress={handleSave} disabled={!isFormValid}>
                     <Text style={[styles.saveButtonText, { color: isFormValid ? '#6200ee' : '#ccc' }]}>Save</Text>
                 </TouchableOpacity>
+
             </View>
+
+
             <ScrollView contentContainerStyle={{ padding: 20 }}>
+
+
                 {/* 2. 이미지선택영역 */}
                 <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
+
                     {imageUri ? (
                         <Image source={{ uri: imageUri }} style={styles.bookCover} />
                     ) : (
                         <View style={styles.imagePlaceholder}>
+
                             <Ionicons name="camera" size={40} color="#ccc" />
                             <Text style={{ color: '#999', marginTop: 10 }}>표지 추가</Text>
+
                         </View>
                     )}
                 </TouchableOpacity>
+
+
                 {/* 3. 정보입력영역 */}
                 <InputField
                     label="제목"
@@ -157,6 +171,8 @@ export default function AddBook() {
                         {drawStars()}
                     </View>
                 </View>
+
+                
             </ScrollView>
 
         </SafeAreaView>
