@@ -14,12 +14,32 @@ const photoSize = (width - 60) / 3;
 
 export default function WriteComment() {
     const router = useRouter();
-    const { id } = useLocalSearchParams();
+    const { id, commentId } = useLocalSearchParams();
 
     const [content, setContent] = useState('');
     const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
     const isValid = content.trim().length > 0 || selectedImages.length > 0;
+
+
+    // editing
+    React.useEffect(() => {
+        if (commentId) {
+            const loadData = async () => {
+                const jsonValue = await AsyncStorage.getItem('my-books');
+                const books: Book[] = jsonValue ? JSON.parse(jsonValue) : [];
+                const book = books.find(b => b.id === Number(id));
+                const targetComment = book?.comments?.find(c => c.id === Number(commentId));
+
+                if (targetComment) {
+                    setContent(targetComment.content);
+                    setSelectedImages(targetComment.images);
+                }
+            };
+            loadData();
+        }
+    }, [commentId]);
+
 
     // select images
     const pickImages = async () => {
@@ -46,19 +66,18 @@ export default function WriteComment() {
     }
 
     // save
+    // save
     const handleSave = async () => {
         if (!content.trim() && selectedImages.length === 0) {
             Alert.alert("내용을 입력하거나 사진을 추가해주세요.");
-            // 걍 알람으로 할게아니라 등록버튼을 비활성화하면 되는 거 아닌가
             return;
         }
 
         const newComment: Comment = {
-            id: Date.now(),
+            id: commentId ? Number(commentId) : Date.now(), // [수정] ID 유지 or 생성
             content,
             images: selectedImages,
             date: new Date().toLocaleDateString(),
-
         };
 
         try {
@@ -67,16 +86,25 @@ export default function WriteComment() {
 
             const newBooks = books.map(book => {
                 if (book.id === Number(id)) {
-                    return {
-                        ...book,
-                        comments: [newComment, ...(book.comments || [])]
-                    };
+                    let updatedComments;
+
+                    // 👇 [추가 2] 여기가 핵심! 수정모드 vs 작성모드 분기 처리
+                    if (commentId) {
+                        // 수정: ID가 같은 녀석을 찾아서 교체(Map)
+                        updatedComments = book.comments?.map(c =>
+                            c.id === Number(commentId) ? newComment : c
+                        );
+                    } else {
+                        // 작성: 맨 앞에 추가(Spread)
+                        updatedComments = [newComment, ...(book.comments || [])];
+                    }
+
+                    return { ...book, comments: updatedComments };
                 }
                 return book;
             });
 
             await AsyncStorage.setItem('my-books', JSON.stringify(newBooks));
-
             router.back();
 
         } catch (e) {
@@ -93,7 +121,9 @@ export default function WriteComment() {
                 <TouchableOpacity onPress={() => router.back()}>
                     <Ionicons name="close" size={24} color="black" />
                 </TouchableOpacity>
-                <Text style={styles.headerTitle}>기록 남기기</Text>
+                <Text style={styles.headerTitle}>
+                    {commentId ? "기록 수정" : "기록 남기기"}
+                </Text>
                 <TouchableOpacity onPress={handleSave}>
                     <Text style={[styles.saveButtonText, { color: isValid ? '#6200ee' : '#ccc' }]}>완료</Text>
                 </TouchableOpacity>
