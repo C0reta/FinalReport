@@ -1,55 +1,92 @@
-// hooks/useBookDetail.ts
-import { Book } from '@/utils/bookUtils';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useRouter } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
-import { Alert } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import React from 'react';
+import { Dimensions, Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useBookDetail } from '../hooks/useBookDetail'; // 훅 import
+import { styles } from '../style';
 
-export const useBookDetail = (id: string | string[] | undefined) => {
+export default function BookDetail() {
     const router = useRouter();
-    const [book, setBook] = useState<Book | null>(null);
-    const [loading, setLoading] = useState(true);
+    const { id } = useLocalSearchParams();
 
-    // 책 불러오기 로직
-    useEffect(() => {
-        const loadBook = async () => {
-            if (!id) return;
-            try {
-                setLoading(true);
-                const jsonValue = await AsyncStorage.getItem('my-books');
-                const books: Book[] = jsonValue != null ? JSON.parse(jsonValue) : [];
-                const foundBook = books.find(b => b.id === Number(id));
-                setBook(foundBook || null);
-            } catch (e) {
-                console.error("로딩 에러: ", e);
-            } finally {
-                setLoading(false);
-            }
-        };
-        loadBook();
-    }, [id]);
+    const { book, loading, handleOptions } = useBookDetail(id);
 
-    // 삭제 로직
-    const deleteBook = useCallback(() => {
-        Alert.alert("삭제", "정말 삭제하시겠습니까?", [
-            { text: "취소", style: "cancel" },
-            {
-                text: "삭제",
-                style: "destructive",
-                onPress: async () => {
-                    try {
-                        const jsonValue = await AsyncStorage.getItem('my-books');
-                        const books: Book[] = jsonValue ? JSON.parse(jsonValue) : [];
-                        const newBooks = books.filter(b => b.id !== Number(id));
-                        await AsyncStorage.setItem('my-books', JSON.stringify(newBooks));
-                        router.back();
-                    } catch (e) {
-                        console.error("삭제 실패", e);
-                    }
-                }
-            }
-        ]);
-    }, [id, router]);
+    const { width } = Dimensions.get('window');
+    const imageSize = width / 3;
 
-    return { book, loading, deleteBook };
-};
+    if (loading || !book) return (
+        <SafeAreaView style={styles.container}>
+            <Text>Loading...</Text>
+        </SafeAreaView>
+    );
+
+    return (
+        <SafeAreaView style={styles.container}>
+            <Stack.Screen options={{ headerShown: false }} />
+
+            {/* 헤더 */}
+            <View style={styles.header}>
+                <TouchableOpacity onPress={() => router.back()}>
+                    <Ionicons name="arrow-back" size={24} color="black" />
+                </TouchableOpacity>
+                <Text style={styles.headerTitle}>도서 정보</Text>
+
+                {/* 2. 수정버튼 */}
+                <TouchableOpacity onPress={handleOptions}>
+                    <Ionicons name="ellipsis-horizontal" size={24} color="black" />
+                </TouchableOpacity>
+            </View>
+
+            <ScrollView>
+                <View style={styles.bookInfoContainer}>
+                    <View style={styles.bookCoverShadow}>
+                        {book.imageUri ? (
+                            <Image
+                                source={{ uri: book.imageUri }}
+                                style={styles.detailBookCover}
+                            />
+                        ) : (
+                            <View style={styles.noImagePlaceholder}>
+                                <Text style={{ color: '#aaa' }}>No Image</Text>
+                            </View>
+                        )}
+                    </View>
+                    <Text style={styles.detailTitle}>{book.title}</Text>
+                    <Text style={styles.detailAuthor}>{book.author}</Text>
+                </View>
+
+                <View>
+                    <Text style={styles.galleryTitle}>Comments</Text>
+                    <View style={styles.galleryGrid}>
+                        {(book.comments || [])
+                            .flatMap(comment => comment.images) // 모든 사진 모으기
+                            .map((imgUri, index) => (
+                                <View
+                                    key={index}
+                                    style={[styles.galleryItem, { width: imageSize, height: imageSize }]}
+                                >
+                                    <Image
+                                        source={{ uri: imgUri }}
+                                        style={{ width: '100%', height: '100%' }} // 꽉 채우기
+                                    />
+                                </View>
+                            ))}
+
+                        {/* 사진이 하나도 없을 때 안내 문구 */}
+                        {(!book.comments || book.comments.flatMap(c => c.images).length === 0) && (
+                            <View style={{ padding: 20, width: '100%', alignItems: 'center' }}>
+                                <Text style={{ color: '#aaa' }}>아직 등록된 사진이 없어요.</Text>
+                            </View>
+                        )}
+                    </View>
+                </View>
+            </ScrollView>
+
+            <TouchableOpacity style={styles.fab} onPress={() => router.push(`/book/write/${id}`)}>
+                <Ionicons name="add" size={30} color="white" />
+            </TouchableOpacity>
+
+        </SafeAreaView>
+    );
+}

@@ -2,6 +2,13 @@ import { Dimensions } from 'react-native';
 
 // 독서 시작일이랑 종료일 넣어보기
 
+export interface Comment {
+    id: number;
+    content: string;
+    images: string[];
+    date: string;
+}
+
 export interface Book {
     id: number;
     title: string;
@@ -13,6 +20,7 @@ export interface Book {
     pages: number;
     imageUri: string | null;
     color: string;
+    comments?: Comment[];
 }
 
 // 너비계산
