@@ -91,7 +91,7 @@ export default function BookShelf() {
             </ScrollView>
 
             {/* FAB 버튼 */}
-            <TouchableOpacity style={styles.addButton} onPress={() => router.push("/AddBook")}>
+            <TouchableOpacity style={styles.addButton} onPress={() => router.push("../AddBook")}>
                 <Text style={styles.addButtonText}>+</Text>
             </TouchableOpacity>
         </SafeAreaView>

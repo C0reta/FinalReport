@@ -1,4 +1,3 @@
-// hooks/useBookDetail.ts
 import { Book } from '@/utils/bookUtils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect, useRouter } from 'expo-router';
@@ -29,17 +28,17 @@ export const useBookDetail = (id: string | string[] | undefined) => {
                 }
             };
             loadBook();
-        }, [id]) // 👈 useCallback의 괄호가 여기서 닫혀야 함!
+        }, [id])
     );
 
-    // 2. [내부 함수] 실제 삭제
+    // 삭제
     const executeDelete = async () => {
         try {
             const jsonValue = await AsyncStorage.getItem('my-books');
             const books: Book[] = jsonValue ? JSON.parse(jsonValue) : [];
             const newBooks = books.filter(b => b.id !== Number(id));
             await AsyncStorage.setItem('my-books', JSON.stringify(newBooks));
-            router.back(); // 삭제 후 뒤로가기
+            router.back();
         } catch (e) {
             console.error("삭제 실패", e);
         }
