@@ -7,9 +7,9 @@ import { Book, getRandomColor } from '../utils/bookUtils';
 import { InputField } from './InputField';
 
 interface BookFormProps {
-    initialData?: Book; // 수정할 때만 데이터가 들어옴 (없으면 추가 모드)
-    onSubmit: (book: Book) => void; // 저장 버튼 누르면 실행할 함수
-    submitButtonLabel?: string; // 버튼 글씨 ("저장" vs "수정")
+    initialData?: Book; // 수정할 때만 데이터가 들어옴
+    onSubmit: (book: Book) => void; // 저장 버튼
+    submitButtonLabel?: string; // 버튼글씨
 }
 
 export const BookForm = ({ initialData, onSubmit, submitButtonLabel = "Save" }: BookFormProps) => {
@@ -23,12 +23,12 @@ export const BookForm = ({ initialData, onSubmit, submitButtonLabel = "Save" }: 
     const [pages, setPages] = useState(initialData?.pages?.toString() || '');
     const [rating, setRating] = useState(initialData?.rating || 0);
 
+    // 필수요소들
     const isFormValid = title.trim() !== '' && author.trim() !== '' && pages.trim() !== '';
 
     const handlePressSubmit = () => {
         if (!isFormValid) return;
 
-        // 완성된 책 객체를 만들어서 부모에게 전달!
         const bookData: Book = {
             id: initialData?.id || Date.now(), // 있으면 기존 ID, 없으면 새 ID
             title,
@@ -69,7 +69,6 @@ export const BookForm = ({ initialData, onSubmit, submitButtonLabel = "Save" }: 
                 )}
             </TouchableOpacity>
 
-            {/* 입력창들 (InputField 재사용) */}
             <InputField label="제목" value={title} onChangeText={setTitle} />
             <InputField label="지은이" value={author} onChangeText={setAuthor} />
             <InputField label="출판사" value={publisher} onChangeText={setPublisher} />

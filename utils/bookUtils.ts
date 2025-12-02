@@ -62,10 +62,8 @@ export const organizeBooksByShelf = (books: Book[]) => {
         }
     });
 
-    // 반복문 끝나고 마지막에 남은 책들도 책장에 꽂아줘야 함!
     if (currentShelf.length > 0) {
         shelves.push(currentShelf);
     }
-
     return shelves;
 };

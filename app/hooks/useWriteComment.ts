@@ -23,7 +23,7 @@ export const useWriteComment = () => {
                     const books: Book[] = jsonValue ? JSON.parse(jsonValue) : [];
                     const book = books.find(b => b.id === Number(id));
                     const targetComment = book?.comments?.find(c => c.id === Number(commentId));
-                    
+
                     if (targetComment) {
                         setContent(targetComment.content);
                         setSelectedImages(targetComment.images);
@@ -60,11 +60,17 @@ export const useWriteComment = () => {
     const handleSave = async () => {
         if (!isValid) return;
 
+        // 좀 어케 잘 압축해볼까 이게 네줄까지 써야하는 문제야?
+        const now = new Date();
+        const dateString = now.toLocaleDateString(); // yyyy.mm.dd
+        const timeString = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+        const fullDate=`${dateString} ${timeString}`;
+
         const newComment: Comment = {
             id: commentId ? Number(commentId) : Date.now(),
             content,
             images: selectedImages,
-            date: new Date().toLocaleDateString(),
+            date: fullDate,
         };
 
         try {

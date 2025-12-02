@@ -56,8 +56,6 @@ export default function BookDetail() {
                     <Text style={styles.detailAuthor}>{book.author}</Text>
                 </View>
 
-                // app/book/[id].tsx 수정
-
                 <View>
                     <Text style={styles.galleryTitle}>Comments</Text>
                     <View style={styles.galleryGrid}>
@@ -65,7 +63,7 @@ export default function BookDetail() {
                             // 첫번째사진만
                             .filter(comment => comment.images && comment.images.length > 0)
                             .map((comment) => ({
-                                uri: comment.images[0], // 📸 대표 사진
+                                uri: comment.images[0], // 대표 사진
                                 commentId: comment.id,
                                 count: comment.images.length // 사진 몇장인지
                             }))

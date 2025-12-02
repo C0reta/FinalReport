@@ -82,11 +82,11 @@ export const styles = StyleSheet.create({
 
         // 입체감
         borderLeftWidth: 1,
-        borderLeftColor: 'rgba(255,255,255,0.3)', // 책등의 하이라이트 효과
+        borderLeftColor: 'rgba(255,255,255,0.3)', // 책등하이라이트
         borderRightWidth: 1,
-        borderRightColor: 'rgba(0,0,0,0.1)',      // 책등의 그림자 효과
+        borderRightColor: 'rgba(0,0,0,0.1)',      // 책등그림자
     },
-    // [선반바닥
+    // 선반바닥
     shelfFloor: {
         height: 25, // 선반 두께 => 졸라두껍게하면 책장같은느낌 나지않을까
         backgroundColor: '#5D4037',
@@ -117,17 +117,17 @@ export const styles = StyleSheet.create({
     addButtonText: {
         color: 'white',
         fontSize: 30,
-        marginTop: -2, // 텍스트 중앙 정렬 미세 조정
+        marginTop: -2,
     },
 
     modalOverlay: {
         flex: 1,
-        justifyContent: "center", // 세로 중앙 정렬
-        alignItems: "center",     // 가로 중앙 정렬
-        backgroundColor: "rgba(0, 0, 0, 0.5)", // 배경을 반투명한 검은색으로 (중요!)
+        justifyContent: "center", 
+        alignItems: "center",     
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
     },
     modalView: {
-        width: '80%', // 화면 너비의 80% 차지
+        width: '80%',
         backgroundColor: "white",
         borderRadius: 20,
         padding: 35,
@@ -264,12 +264,41 @@ export const styles = StyleSheet.create({
         backgroundColor: '#eee',
         borderWidth: 1,
         borderColor: 'white',
-        // width, height는 동적이므로 본문에서 설정
     },
     galleryText: {
         position: 'absolute',
         bottom: 5,
         right: 5,
+    },
+
+    uploaderContainer: {
+        flexDirection: 'row',
+        marginTop: 20,
+        gap: 10,
+    },
+    imageItem: {
+        borderRadius: 10,
+    },
+    deleteBadge: {
+        position: 'absolute',
+        right: -5,
+        top: -5,
+        backgroundColor: 'black',
+        borderRadius: 10,
+        zIndex: 1, // 이미지가 겹칠 때 위로 오라고
+    },
+    addPhotoButton: {
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: '#ddd',
+        borderStyle: 'dashed',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    addPhotoText: {
+        fontSize: 12,
+        color: '#aaa',
+        marginTop: 4,
     },
 
 })

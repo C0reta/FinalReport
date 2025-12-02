@@ -10,7 +10,7 @@ export const useCommentDetail = (bookId: string | string[], commentId: string | 
     const [comment, setComment] = useState<Comment | null>(null);
     const [loading, setLoading] = useState(true);
 
-    // 1. 데이터 로딩 (화면 포커스될 때마다!)
+    // 1. 데이터 로딩
     useFocusEffect(
         useCallback(() => {
             const loadData = async () => {
