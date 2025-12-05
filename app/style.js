@@ -300,5 +300,13 @@ export const styles = StyleSheet.create({
         color: '#aaa',
         marginTop: 4,
     },
+    bookTitleVertical: {
+        fontSize: 9,
+        fontWeight: 'bold',
+        color: '#333',
+        textAlign: 'center',
+        width: 120,
+        transform: [{ rotate: '90deg' }] 
+    }
 
 })

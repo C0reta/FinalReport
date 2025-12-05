@@ -79,9 +79,7 @@ export default function BookShelf() {
                                     style={[styles.bookItem, { backgroundColor: book.color, width: getBookWidth(book.pages || 0) }]}
                                     onPress={() => router.push(`/book/${book.id}`)}
                                 >
-                                    {getBookWidth(book.pages || 0) > 15 && (
-                                        <Text style={{ fontSize: 10 }} numberOfLines={1}>{book.title}</Text>
-                                    )}
+                                    <Text style={styles.bookTitleVertical} numberOfLines={1} ellipsizeMode="tail">{book.title}</Text>
                                 </TouchableOpacity>
                             ))}
                         </View>
@@ -91,7 +89,7 @@ export default function BookShelf() {
             </ScrollView>
 
             {/* FAB 버튼 */}
-            <TouchableOpacity style={styles.addButton} onPress={() => router.push("../AddBook")}>
+            <TouchableOpacity style={styles.addButton} onPress={() => router.push("../book/Add")}>
                 <Text style={styles.addButtonText}>+</Text>
             </TouchableOpacity>
         </SafeAreaView>

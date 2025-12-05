@@ -31,7 +31,7 @@ export const useBookDetail = (id: string | string[] | undefined) => {
         }, [id])
     );
 
-    // 삭제
+    // 삭제 logic
     const executeDelete = async () => {
         try {
             const jsonValue = await AsyncStorage.getItem('my-books');
@@ -44,7 +44,7 @@ export const useBookDetail = (id: string | string[] | undefined) => {
         }
     };
 
-    // 3. 수정or삭제
+    // 3. 수정or삭제 interface
     const handleOptions = useCallback(() => {
         Alert.alert(
             "도서 관리",

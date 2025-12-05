@@ -37,12 +37,9 @@ export default function CommentDetail() {
             </View>
 
             <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
-                {/* 내용 */}
                 <View style={{ padding: 20 }}>
                     <Text style={{ fontSize: 16, lineHeight: 24 }}>{comment.content}</Text>
                 </View>
-
-                {/* 이미지 슬라이더 */}
                 <ImageCarousel images={comment.images} />
             </ScrollView>
         </SafeAreaView>

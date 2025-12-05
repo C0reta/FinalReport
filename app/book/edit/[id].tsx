@@ -4,8 +4,8 @@ import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { styles } from '../../../app/style'; // 스타일 경로 확인!
-import { BookForm } from '../../../components/BookForm'; // 경로 확인!
+import { styles } from '../../../app/style';
+import { BookForm } from '../../../components/BookForm';
 import { Book } from '../../../utils/bookUtils';
 
 export default function EditBook() {
